@@ -4,7 +4,8 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { Adapter } from "next-auth/adapters";
-import NextAuth from "next-auth/next";
+import NextAuth, { getServerSession } from "next-auth/next";
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
 
 export const config = {
   pages: {
@@ -43,7 +44,7 @@ export const config = {
         await prisma.user.update({
           where: { id: prismaUser.id },
           data: {
-            username: prismaUser.name?.split("").join("").toLowerCase(),
+            username: prismaUser.name?.split(" ").join("").toLowerCase(),
           },
         });
       }
@@ -59,3 +60,12 @@ export const config = {
 } satisfies NextAuthOptions;
 
 export default NextAuth(config);
+
+export function auth(
+  ...args:
+    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, config);
+}

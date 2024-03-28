@@ -69,3 +69,4 @@ export function auth(
 ) {
   return getServerSession(...args, config);
 }
+

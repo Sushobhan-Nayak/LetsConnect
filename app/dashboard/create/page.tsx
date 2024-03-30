@@ -1,4 +1,5 @@
 "use client";
+import Error from "@/components/Error";
 // import Error from "@/components/Error";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
@@ -19,11 +20,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import useMount from "@/hooks/useMount";
+import { createPost } from "@/lib/actions";
 import { CreatePost } from "@/lib/schemas";
-// import useMount from "@/hooks/useMount";
-// import { createPost } from "@/lib/actions";
-// import { CreatePost } from "@/lib/schemas";
-// import { UploadButton } from "@/lib/uploadthing";
+import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -62,7 +61,10 @@ function CreatePage() {
             <form
               className="space-y-4"
               onSubmit={form.handleSubmit(async (value) => {
-                console.log(value);
+                const res = await createPost(value);
+                if (res) {
+                  return toast.error(<Error res={res} />);
+                }
               })}
             >
               {" "}
@@ -85,7 +87,7 @@ function CreatePage() {
                     <FormItem>
                       <FormLabel htmlFor="picture">Picture</FormLabel>
                       <FormControl>
-                        {/* <UploadButton
+                        <UploadButton
                           endpoint="imageUploader"
                           onClientUploadComplete={(res) => {
                             form.setValue("fileUrl", res[0].url);
@@ -95,7 +97,7 @@ function CreatePage() {
                             console.error(error);
                             toast.error("Upload failed");
                           }}
-                        /> */}
+                        />
                       </FormControl>
                       <FormDescription>
                         Upload a picture to post.

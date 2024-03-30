@@ -4,6 +4,10 @@ import { auth } from "@/auth";
 import UserAvatar from "./UserAvatar";
 import Timestamp from "./Timestamp";
 import PostOptions from "./PostOptions";
+import Image from "next/image";
+// import PostActions from "./PostActions";
+import Link from "next/link";
+// import Comments from "./Comments";
 
 async function Post({ post }: { post: PostWithExtras }) {
   const session = await auth();
@@ -35,6 +39,24 @@ async function Post({ post }: { post: PostWithExtras }) {
         </div>
         <PostOptions post={post} userId={userId} />
       </div>
+      <Card className="relative h-[450px] overflow-hidden rounded-none sm:rounded-md">
+        <Image
+          src={post.fileUrl}
+          alt=""
+          fill
+          className="sm:rounded-md object-cover"
+        ></Image>
+      </Card>
+      {/* <PostActions post={post} userId={userId} className="px-3 sm:px-0" /> */}
+      {post.caption && (
+        <div className="text-sm leading-none flex item-center space-x-2 font-medium px-3 sm:px-0">
+          <Link href={`/dashboard/${username}`} className="font-bold">
+            {username}
+          </Link>
+          <p>{post.caption}</p>
+        </div>
+      )}
+      {/* <Comments postId={post.id} comments={post.comments} user={session.user} /> */}
     </div>
   );
 }

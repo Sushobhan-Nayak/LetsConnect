@@ -1,6 +1,6 @@
 "use client";
 
-// import { deletePost } from "@/lib/actions";
+import { deletePost } from "@/lib/actions";
 import { PostWithExtras } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -32,8 +32,8 @@ function PostOptions({ post, userId, className }: Props) {
         {isPostMine && (
           <form
             action={async (formData) => {
-            //   const { message } = await deletePost(formData);
-            //   toast(message);
+              const { message } = await deletePost(formData);
+              toast(message);
             }}
             className="postOption"
           >

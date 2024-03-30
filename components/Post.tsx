@@ -33,7 +33,7 @@ async function Post({ post }: { post: PostWithExtras }) {
             </p>
           </div>
         </div>
-        <PostOptions />
+        <PostOptions post={post} userId={userId} />
       </div>
     </div>
   );

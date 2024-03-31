@@ -7,6 +7,7 @@ import PostOptions from "./PostOptions";
 import Image from "next/image";
 // import PostActions from "./PostActions";
 import Link from "next/link";
+import PostActions from "./PostActions";
 // import Comments from "./Comments";
 
 async function Post({ post }: { post: PostWithExtras }) {
@@ -47,7 +48,7 @@ async function Post({ post }: { post: PostWithExtras }) {
           className="sm:rounded-md object-cover"
         ></Image>
       </Card>
-      {/* <PostActions post={post} userId={userId} className="px-3 sm:px-0" /> */}
+      <PostActions post={post} userId={userId} className="px-3 sm:px-0" />
       {post.caption && (
         <div className="text-sm leading-none flex item-center space-x-2 font-medium px-3 sm:px-0">
           <Link href={`/dashboard/${username}`} className="font-bold">

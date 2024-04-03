@@ -8,6 +8,7 @@ import Image from "next/image";
 // import PostActions from "./PostActions";
 import Link from "next/link";
 import PostActions from "./PostActions";
+import Comments from "./Comments";
 // import Comments from "./Comments";
 
 async function Post({ post }: { post: PostWithExtras }) {
@@ -57,7 +58,7 @@ async function Post({ post }: { post: PostWithExtras }) {
           <p>{post.caption}</p>
         </div>
       )}
-      {/* <Comments postId={post.id} comments={post.comments} user={session.user} /> */}
+      <Comments postId={post.id} comments={post.comments} user={session.user} />
     </div>
   );
 }

@@ -24,15 +24,15 @@ Welcome to Let'sConnect, a user-friendly social media platform designed to facil
 
 1. Clone the repository:
    git clone https://github.com/your-username/letsconnect.git
-2. Install dependencies:
-   cd letsconnect
+2. Install dependencies:\
+   cd letsconnect\
    npm install
-3. Set up MySQL database and configure Prisma connection in 'prisma/schema.prisma'.
-4. Run migrations:
+4. Set up MySQL database and configure Prisma connection in 'prisma/schema.prisma'.
+5. Run migrations:\
    npx prisma migrate dev --name init
-5. Start the development server:
-  npm run dev
-  Open http://localhost:3000 to view the application in your browser.
+6. Start the development server:\
+   npm run dev\
+   Open http://localhost:3000 to view the application in your browser.
 
 
 ## Contributing

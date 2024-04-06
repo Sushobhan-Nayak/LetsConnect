@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { BookmarkSchema, CreateComment, CreatePost, DeleteComment, DeletePost, LikeSchema } from "./schemas";
+import { BookmarkSchema, CreateComment, CreatePost, DeleteComment, DeletePost, LikeSchema, UpdatePost } from "./schemas";
 import { getUserId } from "./utils";
 import { error } from "console";
 import { revalidatePath } from "next/cache";
@@ -257,4 +257,47 @@ export async function deleteComment(formData: FormData) {
   } catch (error) {
     return { message: "Database Error: Failed to Delete Comment." };
   }
+}
+
+export async function updatePost(values: z.infer<typeof UpdatePost>) {
+  const userId = await getUserId();
+
+  const validatedFields = UpdatePost.safeParse(values);
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update Post.",
+    };
+  }
+
+  const { id, fileUrl, caption } = validatedFields.data;
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id,
+      userId,
+    },
+  });
+
+  if (!post) {
+    throw new Error("Post not found");
+  }
+
+  try {
+    await prisma.post.update({
+      where: {
+        id,
+      },
+      data: {
+        fileUrl,
+        caption,
+      },
+    });
+  } catch (error) {
+    return { message: "Database Error: Failed to Update Post." };
+  }
+
+  revalidatePath("/dashboard");
+  redirect("/dashboard");
 }

@@ -121,3 +121,13 @@ export function SinglePostSkeleton() {
     </Card>
   );
 }
+
+export function MorePost() {
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      <Skeleton className="h-44 md:h-64 lg:h-80"></Skeleton>
+      <Skeleton className="h-44 md:h-64 lg:h-80"></Skeleton>
+      <Skeleton className="h-44 md:h-64 lg:h-80"></Skeleton>
+    </div>
+  );
+}

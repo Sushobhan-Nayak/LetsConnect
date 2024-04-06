@@ -68,36 +68,39 @@ export async function fetchPostById(id: string) {
   }
 }
 
-export async function fetchPostByUsername(username: string, postId?: string) {
+export async function fetchPostsByUsername(username: string, postId?: string) {
   noStore();
+
   try {
-    const data = await prisma.savedPost.findMany({
+    const data = await prisma.post.findMany({
       where: {
-        user: { username },
-        NOT: { id: postId },
+        user: {
+          username,
+        },
+        NOT: {
+          id: postId,
+        },
       },
       include: {
-        post: {
+        comments: {
           include: {
-            comments: {
-              include: {
-                user: true,
-              },
-              orderBy: {
-                createdAt: "desc",
-              },
-            },
-            likes: {
-              include: {
-                user: true,
-              },
-            },
-            savedBy: true,
+            user: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+        likes: {
+          include: {
             user: true,
           },
         },
+        savedBy: true,
+        user: true,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     return data;

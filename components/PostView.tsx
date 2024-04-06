@@ -1,9 +1,9 @@
 "use client";
 
-// import CommentForm from "@/components/CommentForm";
+import CommentForm from "@/components/CommentForm";
 import PostActions from "@/components/PostActions";
 import UserAvatar from "@/components/UserAvatar";
-// import ViewPost from "@/components/ViewPost";
+import ViewPost from "@/components/ViewPost";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useMount from "@/hooks/useMount";
@@ -63,7 +63,42 @@ export default function PostView({
               </>
             )}
           </ScrollArea>
+          <ViewPost className="hidden md:flex border-b" />
+          <div className="px-2 hidden md:block mt-auto border-b p-2.5">
+            <PostActions post={post} userId={user?.id} />
+            <time className="text-[11px] uppercase text-zinc-500 font-medium">
+              {new Date(post.createdAt).toLocaleDateString("en-IN", {
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </div>
+          <CommentForm
+            postId={post.id}
+            className="hidden md:inline-flex"
+            inputRef={inputRef}
+          ></CommentForm>
         </div>
+        <div className="relative overflow-hidden h-96 md:h-[500px] lg:h-[700px] xl:h-[800px] max-w-3xl w-full">
+          <Image
+            src={post.fileUrl}
+            fill
+            objectFit="cover"
+            alt="Post Image"
+            className="md:rounded-l-md object-cover"
+          ></Image>
+        </div>
+        <PostActions
+          post={post}
+          userId={user?.id}
+          className="border-b p-2.5 md:hidden"
+        />
+        <CommentForm
+          postId={post.id}
+          className="md:hidden"
+          inputRef={inputRef}
+        ></CommentForm>
+        <ViewPost className="md:hidden"></ViewPost>
       </DialogContent>
     </Dialog>
   );

@@ -67,3 +67,42 @@ export async function fetchPostById(id: string) {
     throw new Error("Failed to fetch post");
   }
 }
+
+export async function fetchPostByUsername(username: string, postId?: string) {
+  noStore();
+  try {
+    const data = await prisma.savedPost.findMany({
+      where: {
+        user: { username },
+        NOT: { id: postId },
+      },
+      include: {
+        post: {
+          include: {
+            comments: {
+              include: {
+                user: true,
+              },
+              orderBy: {
+                createdAt: "desc",
+              },
+            },
+            likes: {
+              include: {
+                user: true,
+              },
+            },
+            savedBy: true,
+            user: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch posts");
+  }
+}

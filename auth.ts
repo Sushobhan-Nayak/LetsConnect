@@ -52,7 +52,7 @@ export const config = {
         id: prismaUser.id,
         name: prismaUser.name,
         email: prismaUser.email,
-        username: prismaUser.email,
+        username: prismaUser.username,
         picture: prismaUser.image,
       };
     },

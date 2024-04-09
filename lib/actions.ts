@@ -1,7 +1,17 @@
 "use server";
 
 import { z } from "zod";
-import { BookmarkSchema, CreateComment, CreatePost, DeleteComment, DeletePost, LikeSchema, UpdatePost } from "./schemas";
+import {
+  BookmarkSchema,
+  CreateComment,
+  CreatePost,
+  DeleteComment,
+  DeletePost,
+  FollowUser,
+  LikeSchema,
+  UpdatePost,
+  UpdateUser,
+} from "./schemas";
 import { getUserId } from "./utils";
 import { error } from "console";
 import { revalidatePath } from "next/cache";
@@ -119,7 +129,6 @@ export async function likePost(value: FormDataEntryValue | null) {
     return { message: "Database Error: Failed to Like Post." };
   }
 }
-
 
 export async function bookmarkPost(value: FormDataEntryValue | null) {
   const userId = await getUserId();
@@ -300,4 +309,102 @@ export async function updatePost(values: z.infer<typeof UpdatePost>) {
 
   revalidatePath("/dashboard");
   redirect("/dashboard");
+}
+
+export async function updateProfile(values: z.infer<typeof UpdateUser>) {
+  const userId = await getUserId();
+
+  const validatedFields = UpdateUser.safeParse(values);
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Update Profile.",
+    };
+  }
+
+  const { bio, gender, image, name, username, website } = validatedFields.data;
+
+  try {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        username,
+        name,
+        image,
+        bio,
+        gender,
+        website,
+      },
+    });
+    revalidatePath("/dashboard");
+    return { message: "Updated Profile." };
+  } catch (error) {
+    return { message: "Database Error: Failed to Update Profile." };
+  }
+}
+
+export async function followUser(formData: FormData) {
+  const userId = await getUserId();
+
+  const { id } = FollowUser.parse({
+    id: formData.get("id"),
+  });
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const follows = await prisma.follows.findUnique({
+    where: {
+      followerId_followingId: {
+        // followerId is of the person who wants to follow
+        followerId: userId,
+        // followingId is of the person who is being followed
+        followingId: id,
+      },
+    },
+  });
+
+  if (follows) {
+    try {
+      await prisma.follows.delete({
+        where: {
+          followerId_followingId: {
+            followerId: userId,
+            followingId: id,
+          },
+        },
+      });
+      revalidatePath("/dashboard");
+      return { message: "Unfollowed User." };
+    } catch (error) {
+      return {
+        message: "Database Error: Failed to Unfollow User.",
+      };
+    }
+  }
+
+  try {
+    await prisma.follows.create({
+      data: {
+        followerId: userId,
+        followingId: id,
+      },
+    });
+    revalidatePath("/dashboard");
+    return { message: "Followed User." };
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to Follow User.",
+    };
+  }
 }

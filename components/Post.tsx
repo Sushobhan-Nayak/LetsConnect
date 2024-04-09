@@ -15,16 +15,21 @@ async function Post({ post }: { post: PostWithExtras }) {
   const session = await auth();
   const userId = session?.user?.id;
   const username = post.user.username;
+  const href = `/dashboard/${username}`;
   if (!session?.user) return null;
 
   return (
     <div className="flex flex-col space-y-2.5">
       <div className="flex items-center justify-between px-3 sm:px-0">
         <div className="flex space-x-3 items-center">
-          <UserAvatar user={post.user}></UserAvatar>
+          <Link href={href}>
+            <UserAvatar user={post.user}></UserAvatar>
+          </Link>
           <div className="text-sm">
             <p className="space-x-1">
-              <span className="font-semibold">{username}</span>
+              <Link href={href}>
+                <span className="font-semibold">{username}</span>
+              </Link>
               <span
                 className="font-medium text-neutral-500 dark:text-neutral-400
                       text-xs

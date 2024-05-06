@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ourFileRouter } from "./api/uploadthing/core";
@@ -7,8 +6,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { Toaster } from "sonner";
 import AuthProvider from "@/components/AuthProvider";
-
-const inter = Inter({ subsets: ["latin"] });
+import { inter } from "./fonts";
 
 export const metadata: Metadata = {
   title: "Lets Connect",

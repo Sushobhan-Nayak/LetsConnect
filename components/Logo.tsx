@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { buttonVariants } from "./ui/button";
 import { SwitchCamera } from "lucide-react";
+import { calSans } from "@/app/fonts";
 // import { calSans } from "@/app/fonts";
 
 function Logo() {
@@ -16,7 +17,11 @@ function Logo() {
       })}
     >
       <SwitchCamera className="h-6 w-6 shrink-0 lg:hidden" />
-      <p className={`font-semibold text-xl hidden lg:block`}>LetsConnect</p>
+      <p
+        className={`font-semibold text-xl hidden lg:block ${calSans.className}`}
+      >
+        LetsConnect
+      </p>
     </Link>
   );
 }

@@ -1,13 +1,14 @@
 import { Heart, Search, SwitchCamera } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { calSans } from "@/app/fonts";
 
 function Header() {
   return (
     <header className="fixed md:hidden bg-white top-0 flex items-center justify-between space-x-2 dark:bg-neutral-950 w-full z-50 border-b border-zinc-300 dark:border-neutral-700 px-3 py-2 sm:-ml-6">
       <Link href={"/dashboard"}>
         <SwitchCamera className="h-6 w-6 shrink-0 lg:hidden" />
-        <p className={`font-semibold text-xl hidden lg:block`}>
+        <p className={`font-semibold text-xl ${calSans.className}`}>
           LetsConnect
         </p>
       </Link>

@@ -56,8 +56,10 @@ async function ProfileLayout({ children, params: { username } }: Props) {
           </ProfileAvatar>
 
           <div className="md:px-3 space-y-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 items-center gap-3">
-              <p className="font-semibold text-xl">{profile.username}</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 items-center gap-4 md:gap-2">
+              <p className="font-semibold text-md lg:text-xl">
+                {profile.username}
+              </p>
               {isCurrentUser ? (
                 <>
                   <Button
@@ -77,13 +79,6 @@ async function ProfileLayout({ children, params: { username } }: Props) {
                   >
                     Edit profile
                   </Link>
-                  <Button
-                    variant={"secondary"}
-                    className="font-bold"
-                    size={"sm"}
-                  >
-                    View archive
-                  </Button>
                 </>
               ) : (
                 <>

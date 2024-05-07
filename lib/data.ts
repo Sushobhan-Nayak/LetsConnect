@@ -22,6 +22,7 @@ export async function fetchPosts() {
         savedBy: true,
         user: true,
       },
+
       orderBy: {
         createdAt: "desc",
       },

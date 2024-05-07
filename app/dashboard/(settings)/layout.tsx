@@ -16,7 +16,7 @@ function SettingsLayout({ children }: { children: React.ReactNode }) {
     <div className="flex">
       <Tabs
         defaultValue="edit-profile"
-        className="w-[250px] min-h-screen fixed space-y-8 left-0 top-0 md:ml-20 lg:ml-64 h-full flex flex-col lg:border-r px-6 py-12"
+        className="w-[250px] min-h-screen fixed space-y-8 left-0 top-0 md:ml-20 lg:ml-64 h-full flex-col lg:border-r px-6 py-12 hidden md:flex"
         orientation="vertical"
       >
         <h4 className="font-extrabold text-xl text-white ml-1">Settings</h4>
@@ -36,7 +36,7 @@ function SettingsLayout({ children }: { children: React.ReactNode }) {
         </TabsList>
       </Tabs>
 
-      <div className="flex-1 ml-[200px] xl:ml-32 min-h-screen bg-white dark:bg-neutral-950">
+      <div className="flex-1 md:ml-[200px] xl:ml-32 min-h-screen bg-white dark:bg-neutral-950">
         {children}
       </div>
     </div>

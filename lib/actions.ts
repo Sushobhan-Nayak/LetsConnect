@@ -21,17 +21,18 @@ import prisma from "@/lib/prisma";
 export async function createPost(values: z.infer<typeof CreatePost>) {
   const userId = await getUserId();
   const validatedField = CreatePost.safeParse(values);
-
   if (!validatedField.success) {
     return {
       errors: validatedField.error.flatten().fieldErrors,
       message: "Missing fields. Failed to create post.",
     };
   }
-  const { fileUrl, caption } = validatedField.data;
+
+  const { fileUrl, caption, location } = validatedField.data;
+  // console.log(fileUrl, caption, location);
   try {
     await prisma?.post.create({
-      data: { fileUrl, caption, user: { connect: { id: userId } } },
+      data: { fileUrl, caption, location, user: { connect: { id: userId } } },
     });
   } catch (error) {
     return { message: "Database error. Failed to create post." };

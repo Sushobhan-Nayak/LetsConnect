@@ -26,13 +26,14 @@ import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 function CreatePage() {
   const pathname = usePathname();
+  const [location, setLocation] = useState("");
   const isCreatePage = pathname === "/dashboard/create";
   const router = useRouter();
   const mount = useMount();
@@ -44,7 +45,24 @@ function CreatePage() {
     },
   });
   const fileUrl = form.watch("fileUrl");
-
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(async function (position) {
+      const { latitude, longitude } = position.coords;
+      // console.log(latitude, longitude);
+      try {
+        const response = await fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+        );
+        const data = await response.json();
+        // console.log(data);
+        let loc = data.city + ", " + data.countryName;
+        setLocation(loc);
+        // console.log(location);
+      } catch (error) {
+        console.error("Error fetching location:", error);
+      }
+    });
+  }, []);
   if (!mount) return null;
 
   return (
@@ -67,7 +85,6 @@ function CreatePage() {
                 }
               })}
             >
-              {" "}
               {!!fileUrl ? (
                 <div className="h-96 md:h-[450px] overflow-hidden rounded-md">
                   <AspectRatio ratio={1 / 1} className="relative h-full">
@@ -91,6 +108,7 @@ function CreatePage() {
                           endpoint="imageUploader"
                           onClientUploadComplete={(res) => {
                             form.setValue("fileUrl", res[0].url);
+                            form.setValue("location", location);
                             toast.success("Upload complete");
                           }}
                           onUploadError={(error: Error) => {

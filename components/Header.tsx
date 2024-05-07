@@ -8,7 +8,7 @@ function Header() {
     <header className="fixed md:hidden bg-white top-0 flex items-center justify-between space-x-2 dark:bg-neutral-950 w-full z-50 border-b border-zinc-300 dark:border-neutral-700 px-3 py-2 sm:-ml-6">
       <Link href={"/dashboard"}>
         <SwitchCamera className="h-6 w-6 shrink-0 lg:hidden" />
-        <p className={`font-semibold text-xl ${calSans.className}`}>
+        <p className={`font-semibold text-xl hidden lg:block ${calSans.className}`}>
           LetsConnect
         </p>
       </Link>

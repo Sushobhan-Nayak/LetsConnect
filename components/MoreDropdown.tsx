@@ -23,9 +23,14 @@ import { cn } from "@/lib/utils";
 import { Switch } from "./ui/switch";
 import { useTheme } from "next-themes";
 import { Label } from "./ui/label";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { auth } from "@/auth";
+import { useRouter } from "next/navigation";
 
 function MoreDropdown() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const username = session?.user.username;
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const [showModeToggle, setShowModeToggle] = useState(false);
@@ -78,7 +83,13 @@ function MoreDropdown() {
               <Activity size={20} />
               <p>Your activity</p>
             </DropdownMenuItem>
-            <DropdownMenuItem className="menuItem">
+            <DropdownMenuItem
+              className="menuItem"
+              onClick={() => {
+                router.push(`/dashboard/${username}/saved`);
+                setOpen(false);
+              }}
+            >
               <Bookmark size={20} />
               <p>Saved</p>
             </DropdownMenuItem>

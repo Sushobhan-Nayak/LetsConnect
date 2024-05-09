@@ -12,8 +12,8 @@ function Header() {
           LetsConnect
         </p>
       </Link>
-      <div className="flex items-center space-x-2">
-        <div className="flex items-center text-nuetral-600 dark:text-neutral-400 bg-zinc-100 dark:bg-neutral-800 gap-x-2 rounded-md px-3.5 py-1.5">
+      <div className="flex items-center">
+        <div className="flex items-center text-nuetral-600 dark:text-neutral-400 bg-zinc-100 dark:bg-neutral-800 gap-x-2 rounded-md px-2 sm:px-10 py-1.5">
           <Search className="h-4 w-4"></Search>
           <input
             type="text"

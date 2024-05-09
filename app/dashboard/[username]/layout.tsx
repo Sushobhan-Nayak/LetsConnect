@@ -9,7 +9,7 @@ import { fetchProfile } from "@/lib/data";
 import { MoreHorizontal, Settings } from "lucide-react";
 import type { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect, useRouter } from "next/navigation";
 
 type Props = {
   params: {
@@ -67,8 +67,12 @@ async function ProfileLayout({ children, params: { username } }: Props) {
                     variant={"ghost"}
                     className="md:order-last"
                   >
-                    <Settings />
+                    <Link href={`/dashboard/edit-profile`}>
+                      {" "}
+                      <Settings />
+                    </Link>
                   </Button>
+
                   <Link
                     href={`/dashboard/edit-profile`}
                     className={buttonVariants({

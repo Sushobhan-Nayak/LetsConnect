@@ -7,6 +7,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { Toaster } from "sonner";
 import AuthProvider from "@/components/AuthProvider";
 import { inter } from "./fonts";
+import RouteLoader from "@/components/Loading";
 
 export const metadata: Metadata = {
   title: "Lets Connect",
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={inter.className}>
+  
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

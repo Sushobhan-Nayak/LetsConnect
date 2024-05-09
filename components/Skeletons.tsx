@@ -131,3 +131,45 @@ export function MorePost() {
     </div>
   );
 }
+
+export function ProfileSkeleton() {
+  return (
+    <div className="flex flex-col h-screen relative md:flex-row md:overflow-hidden">
+      <div className="flex-none w-20 lg:w-64 md:border-r">
+        <Skeleton className="h-full" />
+      </div>
+      <div className="flex-grow flex-1 w-full mt-12 md:mt-0 md:overflow-y-auto sm:p-6 md:p-12 max-w-7xl mx-auto">
+        <div className="space-y-12">
+          <div className="flex items-center space-x-4">
+            <Skeleton className="h-[150px] w-[150px] rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[450px]" />
+              <Skeleton className="h-4 w-[400px]" />
+            </div>
+          </div>
+          <Skeleton className="h-4 w-full" />
+          <MorePost />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function EditSkeleton() {
+  return (
+    <div className="px-24 space-y-12">
+      <Skeleton className="h-4 w-[250px]" />
+      <div className="flex items-center space-x-2">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[250px]" />
+        </div>
+      </div>
+      <Skeleton className="h-6 w-[350px]" />
+      <Skeleton className="h-16 w-[350px]" />
+      <Skeleton className="h-6 w-[350px]" />
+      <Skeleton className="h-[45px] w-[100px]" />
+    </div>
+  );
+}

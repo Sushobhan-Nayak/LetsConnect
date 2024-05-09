@@ -8,6 +8,7 @@ async function page({
   params: { username: string };
 }) {
   const posts = await fetchPostsByUsername(username);
+  
   return <PostsGrid posts={posts} />;
 }
 
